@@ -19,10 +19,10 @@ spec:
         - name: output
           workspace: kuldeeps-workspace
     - name: markdown-lint-exec
-      runAfter: 
+      runAfter:
         - cloning-repository
       taskRef:
-        kind: Task
+        -kind: Task
         name: markdown-lint
       workspaces:
         - name: shared-workspace
@@ -30,4 +30,3 @@ spec:
       params:
         - name: args
           value: ["."]
-          
