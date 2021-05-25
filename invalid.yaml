@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: git-clone-lint-pipeline
+spec:
+  workspaces:
+    - name: kuldeeps-workspace
+      description: |
+        this is the shared workspace for shared pvc
+  tasks:
+    - name: cloning-repository
+      params:
+        - name: url
+          value: https://github.com/upslopeio/lint-markdown-files
+      taskRef:
+        kind: Task
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: kuldeeps-workspace
+    - name: markdown-lint-exec
+      runAfter: 
+        - cloning-repository
+      taskRef:
+        kind: Task
+        name: markdown-lint
+      workspaces:
+        - name: shared-workspace
+          workspace: kuldeeps-workspace
+      params:
+        - name: args
+          value: ["."]
+          
